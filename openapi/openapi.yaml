@@ -7,6 +7,9 @@ info:
   license:
     name: UPM
     url:  https://cic.etsisi.upm.es/
+  contact:
+    name: Grupo 8 AOS
+    email: jorge.mpavon@alumnos.upm.es
 servers:
   - url: http://127.0.0.1:80/api/v1
 
@@ -241,7 +244,7 @@ components:
       properties:
         factura:
           type: object
-          required: [id_factura,estado,VIN_coche,Id_cliente,trabajos,importe_total]
+          required: [id_factura,estado,VIN_coche,Id_cliente,trabajos,importe_total,fecha_factura]
           properties:
           
             links:
@@ -764,6 +767,7 @@ components:
       schema:
         type: string
         pattern: "[0-9a-f]*"
+      example: "99a32df777121hii"
 
     orderParam:
       name: order

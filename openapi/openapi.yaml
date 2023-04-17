@@ -31,6 +31,13 @@ paths:
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/orderParam'
         - $ref: '#/components/parameters/orderingParam'
+        - $ref: '#/components/parameters/VIN_coche'
+        - $ref: '#/components/parameters/Id_cliente'
+        - $ref: '#/components/parameters/fecha'
+        - $ref: '#/components/parameters/estado_factura'
+        - $ref: '#/components/parameters/trabajos'
+        - $ref: '#/components/parameters/intervalo_inferior'
+        - $ref: '#/components/parameters/intervalo_superior'
       responses:  
         '200':
           description: Lista de las facturas creadas
@@ -199,75 +206,7 @@ paths:
         '422':
           $ref: '#/components/responses/Response_422'
   
-  /facturas/busqueda:
-    get:
-      tags: [ 'Factura 📋' ]
-      operationId: "factura_busqueda"
-      summary:  "Obtiene las facturas que coinciden con los datos de busqueda proporcionados"
-      description:  |
-        La siguiente tabla define los códigos de estado que puede devolver este endpoint
-        
-        | Status Code | Descripción | Motivo                             |
-        | ------------| ------------| -----------------------------------|
-        | **200**     | OK          | Si existen las facturas que coinciden con los datos proporcionados    |
-        | **404**     | NOT FOUND   | Si no existe ninguna factura que coincida con los datos de busqueda proporcionados|
-        
-      parameters:
-        - $ref: '#/components/parameters/pageParam'
-        - $ref: '#/components/parameters/orderParam'
-        - $ref: '#/components/parameters/orderingParam'
-        - $ref: '#/components/parameters/VIN_coche'
-        - $ref: '#/components/parameters/Id_cliente'
-        - $ref: '#/components/parameters/fecha'
-        - $ref: '#/components/parameters/estado_factura'
-        - $ref: '#/components/parameters/trabajos'
-        - $ref: '#/components/parameters/intervalo_inferior'
-        - $ref: '#/components/parameters/intervalo_superior'
-      responses:
-        '200':
-          description: Lista de facturas que coinciden con los datos proporcionados en el query
-          headers:
-            ETag:
-              $ref: '#/components/headers/ETag'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  facturas:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Factura'
-                  links:
-                    description: Enlaces de paginación
-                    readOnly: true
-                    type: object
-                    properties:
-                      prevPage:
-                        $ref: '#/components/schemas/Link'
-                      nextPage:
-                        $ref: '#/components/schemas/Link'
-                
-              
-              examples:
-                facturas-example:
-                  $ref: '#/components/examples/facturas-example'
-        '404':
-          $ref: '#/components/responses/Response_404'
-        
-
-      
-    options:
-      summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
-      description: Devuelve una cabecera `Allow` con la lista de métodos HTTP soportados (separados por comas).
-      operationId: factura_busqueda_options
-      tags: [ 'Factura 📋' ]
-      responses:
-        '204':
-          description: 'cabecera `Allow` &lt;El cuerpo de la respuesta está vacío&gt;'
-          headers:
-            Allow:
-              $ref: '#/components/headers/Allow'    
+   
       
       
 components:

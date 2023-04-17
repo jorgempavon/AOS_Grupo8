@@ -20,14 +20,14 @@ tags:
 paths:
   /facturas:
     get:
-      summary: "Obtiene todas las facturas"
+      summary: "Obtiene todas las facturas que coincidan con los parametros del query opcionales"
       description: |
         La siguiente tabla define los códigos de estado que puede devolver este endpoint
         
         | Status Code | Descripción | Motivo                             |
         | ------------| ------------| -----------------------------------|
         | **200**     | OK          | Listado de facturas |             
-        | **404**     | NOT FOUND   | No hay ninguna factura|
+        | **404**     | NOT FOUND   | No hay ninguna factura o no hay ninguna factura que coincida con los datos proporcionados|
       operationId: factura_cget
       tags: ['Factura 📋']
       parameters:

@@ -4,7 +4,9 @@ info:
   title: (Equipo 8)Servicio de Facturas de taller mecánico
   description: >
     ## **[AOS 2023]** API REST para la gestión de Facturas de un taller mecánico🚗
-
+  license:
+    name: UPM
+    url:  https://cic.etsisi.upm.es/
 servers:
   - url: http://127.0.0.1:80/api/v1
 
@@ -200,6 +202,7 @@ paths:
   /facturas/busqueda:
     get:
       tags: [ 'Factura 📋' ]
+      operationId: "factura_busqueda"
       summary:  "Obtiene las facturas que coinciden con los datos de busqueda proporcionados"
       description:  |
         La siguiente tabla define los códigos de estado que puede devolver este endpoint
@@ -208,7 +211,7 @@ paths:
         | ------------| ------------| -----------------------------------|
         | **200**     | OK          | Si existen las facturas que coinciden con los datos proporcionados    |
         | **404**     | NOT FOUND   | Si no existe ninguna factura que coincida con los datos de busqueda proporcionados|
-        |**422**     | UNPROCESSABLE ENTITY| Valor no permitido en alguno de los datos proporcionados en el query|
+        
       parameters:
         - $ref: '#/components/parameters/pageParam'
         - $ref: '#/components/parameters/orderParam'
@@ -252,8 +255,7 @@ paths:
         '404':
           $ref: '#/components/responses/Response_404'
         
-        '422':
-          $ref: '#/components/responses/Response_422'
+
       
     options:
       summary: Proporciona la lista de los métodos HTTP soportados por esta ruta.
@@ -381,7 +383,7 @@ components:
     
     #Aqui encontramos los atributos de la factura
     id_factura:
-      title:  '📟Id_factura'
+      title:  '🆔Id_factura'
       type: string
       description:  "Id único de la factura"
       example:  "2023-0000"
@@ -391,7 +393,7 @@ components:
     
     
     estado:
-      title:  '💰Estado'
+      title:  '✅Estado'
       description:   |
         Estado de la Plataforma:
         * `Emitida`: Factura no pagada
@@ -437,12 +439,13 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/id_trabajo'
+      minItems: 1
     
     importe_total:
       title: "💰Importe total"
       description: "Valor monetario total que se debe pagar por los trabajos de los que se ha beneficiado el cliente."
       type: string
-      pattern: ^\d{1,}((\,\d{3})+)?(\.\d{2})?\u20AC$
+      pattern: "^\\d{1,}((\\,\\d{3})+)?(\\.\\d{2})?\\u20AC$"
 
 
         

@@ -1,24 +1,45 @@
 
-# Primera práctica de AOS
+# Práctica 1 AOS
+El principal objetivo de esta tarea consiste en consolidar los conceptos relacionados con el diseño y la especificación de un servicio. En el caso de nuestro grupo, se nos encomendó la tarea de crear la especificación del servicio de facturas del taller mecánico. A continuación se definen las principales características de este servicio.
 
-Este repositorio contiene la primera práctica de la asignatura Arquitecturas Orientadas a Servicios
-del grado de Ingeniería del Software de la UPM. Esta práctica consiste en elaborar una especificación de una API
-REST usando OpenAPI 3, además se utilizará Docker para ejecutar tres contenedores, uno actuará
-como mock de la API (Stoplight Prism), otro como servidor Proxy (Caddy) y el último permitirá
-realizar peticiones al mock mediante la interfaz de Swagger.
+### Atributos de Factura
 
-## Ejecutar el proyecto en local
+Una factura está formado por los siguientes atributos:
+* Identificador de factura
+* Identificador cliente: Su respectivo DNI o NIE
+* Array Identificadores de trabajos: Dado que en un coche se pueden realizar múltiples trabajos, estos deben aparecer en la factura
+* fecha_factura: Fecha de emisión de la factura
+* VIN_coche: VIN del vehiculo sobre el que se realizan los trabajos.
+* estado: Estado de la factura, es decir, emitida o pagada
+* importe_total: cantidad total que un cliente debe pagar por los bienes o servicios que ha recibido.
 
-Primero se debe de clonar este repositorio:
+
+### Bodies de los endpoints POST y PUT
+
+Los request bodies de estos endpoints contienen los mismos atributos obligatorios:
+
+* id_factura: Identificador único de la factura
+* VIN_coche: VIN del vehículo beneficiado
+* Id_cliente: DNI o NIE del cliente
+* fecha_factura: fecha de emisión de la factura
+* estado: Estado del cobro de la factura
+* trabajos: Lista de trabajos realizados al vehículo
+
+
+## Despliegue del proyecto en local
+
+
+En caso de querer clonar el proyecto desde git, se debe ejecutar el siguiente comando:
 
 ```bash
-  git clone https://github.com/JCelayaRdz/Practica-AOS.git
+  git clone https://github.com/jorgempavon/AOS_Grupo8.git
 ```
+En caso de utilizar el zip entregado en moodle, hay que descomprimirlo en el lugar que se desee almacenar la práctica.
 
 A continuación se debe de ir al directorio donde se encuentra el proyecto:
 
 ```bash
-  cd Practica-AOS
+  cd AOS_Grupo8
 ```
 
 Para ejecutar el proyecto con Docker usamos el siguiente comando:
@@ -26,67 +47,26 @@ Para ejecutar el proyecto con Docker usamos el siguiente comando:
 ```bash
   docker compose up
 ```
+El comando docker compose up, nos pemite a partir del docker-compose.yaml levantar tres contenedores:
 
-Y por último, usando un navegador, si se visita la URL: http://localhost:8000/ 
-se podrá interactuar con el mock de la API mediante la interfaz de Swagger.
-Para parar el proyecto solo hace falta teclear Ctrl+C y para limpiar los recursos creados
-por Docker es recomendable ejecutar el siguiente comando:
+El primer servicio se llama "mock_backend" y utiliza la imagen de Docker "stoplight/prism:4" para ejecutar una simulación de un backend que servirá una API RESTful basada en el archivo OpenAPI especificado en "/aos/openapi.yaml".  Además, el servicio utiliza un volumen para montar el archivo de especificación OpenAPI desde el host dentro del contenedor en la ruta "/aos" y se establece como de sólo lectura.
 
+El segundo servicio denominado "frontend" y utiliza la imagen de Docker "swaggerapi/swagger-ui:latest" para ejecutar una interfaz de usuario basada en Swagger para visualizar y probar la API RESTful. También se utiliza un volumen para montar el archivo de especificación OpenAPI desde el host dentro del contenedor en la ruta "/aos" y se establece como de sólo lectura.
+
+El tercer servicio denominado "proxy" y utiliza la imagen de Docker "caddy:latest" para ejecutar un servidor proxy inverso que enruta las solicitudes entrantes a la API en el contenedor "mock_backend". El servicio utiliza un volumen para montar el archivo de configuración Caddy en "/etc/caddy/Caddyfile" desde el host dentro del contenedor y otro volumen para almacenar los datos persistentes de Caddy en "/data".
+
+Para detener estos servicios que se ejecutan como contenedores de Docker, hay que ejecutar el siguiente comando en la misma carpeta donde se encuentra el archivo docker-compose.yml:
 ```bash
   docker compose down
 ```
+El comando detendrá y eliminará los contenedores de los servicios especificados en el archivo docker-compose.yml. 
 
+## Autores [Equipo 8]
 
-## Decisiones de diseño de la API
+- JORGE MUÑOZ PAVÓN
+- ADRIÁN GARCIA LOPEZ 
+- MANUEL MORENO ASIAIN  
+- JULIÁN NEVADO RAMOS 
+- VICTOR TRAPERO CATALAN 
 
-A pesar de que las decisiones comentadas en este apartado
-se pueden observar en la especificación, hemos considerado relevante
-incluir su justificación.
-
-### Atributos de cliente
-
-Un cliente cuenta con los siguientes atributos:
-* Identificador: Es su DNI o su NIE
-* Nombre
-* Apellidos
-* Sexo: Masculino, Femenino, Otro
-* Edad
-* Número de teléfono
-* Correo electrónico
-* Dirección: Objeto que a su vez está formado por el nombre de la calle, el número de edificación y detalles adicionales
-* Vehículos: Una lista que contiene el VIN de cada vehículo del cliente
-
-### Atributos obligatorios del cliente
-
-A la hora de añadir un cliente hemos considerado que los atributos obligatorios son:
-* Identificador
-* Nombre
-* Apellidos
-* Número de teléfono
-* Vehículos
-
-### Request bodies de POST y PUT
-
-Los request bodies de las peticiones POST y PUT son las mismas (deben incluir los atributos obligatorios)
-por las siguientes razones:
-
-* Identificador: El cliente puede pasar de tener NIE a DNI
-* Nombre y Apellidos: El cliente se puede cambiar el nombre y/o sus apellidos
-* Número de teléfono: El cliente puede cambiarse de número de teléfono
-* Vehículos: El cliente puede tener más o menos vehículos que cuando fue dado de alta en el sistema
-
-
-### Posibilidad de eliminar clientes
-
-La [LOPD](https://www.boe.es/buscar/doc.php?id=BOE-A-2018-16673) establece que la eliminación de los datos personales 
-debe de realizarse de manera que se garantice la destrucción completa de los mismos, evitando cualquier tipo de acceso 
-no autorizado. Es por ello que hemos considerado añadir un endpoint para eliminar los datos de un cliente por medio de
-petición HTTP DELETE.
-
-## Autores [Equipo 6]
-
-- Juan Antonio Celaya Rodríguez
-- Miguel Biondi Romero
-- Fernando de Santos Montalvo
-- Marcos Zapata Bueno
 

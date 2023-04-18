@@ -61,6 +61,25 @@ Para detener estos servicios que se ejecutan como contenedores de Docker, hay qu
 ```
 El comando detendrá y eliminará los contenedores de los servicios especificados en el archivo docker-compose.yml. 
 
+##Otros aspectos de la practica
+Merece la pena mencionar, que el docker compose levanta el contenedor de UI mediante la especificación sin trozear mediante split, es decir, 
+hay que tener en cuenta que dentro del subdirectorio openapi encontramos:
+* openapi.yaml: Aqui se encuentra la especificación completa en un único fichero y es esta la que se utiliza para levantar el docker compose por indicación del profesor en una tutoría
+* multifile: contiene la especificación en múltiples ficheros que permiten observar de una manera general la estructura de la especificación.
+Para dividir la especificación en múltiples ficheros, se utilizó el siguiente comando:
+
+```bash
+  docker run -it --rm -v C:\<ruta_hasta_openapi.yaml>:/aos redocly/cli split /aos/openapi.yaml --outDir /aos/multiFile
+```
+
+El último aspecto a comentar, es que se revisaron los errores de la especificación mediante el siguiente comando:
+
+```bash
+  docker run --rm -v C:\<ruta_hasta_openapi.yaml>:/aos/openapi.yaml redocly/cli lint /aos/openapi.yaml
+```
+
+Después de aplicar el comando sólo se encontraron warnings y errores de seguridad. Estos errores se corregirían fácilmente añadiendo la autenticación mediante por ejemplo, jwt, con la cabecera authorization, pero el profesor indicó que no era necesario en esta primera práctica.
+
 ## Autores [Equipo 8]
 
 - JORGE MUÑOZ PAVÓN

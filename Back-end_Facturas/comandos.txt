@@ -1,0 +1,3 @@
+
+Para levantar el docker compose correctamente utilizar el siguiente comando:
+docker-compose up --build

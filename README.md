@@ -2,7 +2,7 @@
 # Práctica 1 AOS
 El principal objetivo de esta tarea consiste en consolidar los conceptos relacionados con el diseño y la especificación de un servicio. En el caso de nuestro grupo, se nos encomendó la tarea de crear la especificación del servicio de facturas del taller mecánico. A continuación se definen las principales características de este servicio.
 
-### Atributos de Factura
+### Características de Factura
 
 Una factura está formado por los siguientes atributos:
 * Identificador de factura
@@ -12,9 +12,6 @@ Una factura está formado por los siguientes atributos:
 * VIN_coche: VIN del vehiculo sobre el que se realizan los trabajos.
 * estado: Estado de la factura, es decir, emitida o pagada
 * importe_total: cantidad total que un cliente debe pagar por los bienes o servicios que ha recibido.
-
-
-### Bodies de los endpoints POST y PUT
 
 Los request bodies de estos endpoints contienen los mismos atributos obligatorios:
 
@@ -49,17 +46,17 @@ Para ejecutar el proyecto con Docker usamos el siguiente comando:
 ```
 El comando docker compose up, nos pemite a partir del docker-compose.yaml levantar tres contenedores:
 
-El primer servicio se llama "mock_backend" y utiliza la imagen de Docker "stoplight/prism:4" para ejecutar una simulación de un backend que servirá una API RESTful basada en el archivo OpenAPI especificado en "/aos/openapi.yaml".  Además, el servicio utiliza un volumen para montar el archivo de especificación OpenAPI desde el host dentro del contenedor en la ruta "/aos" y se establece como de sólo lectura.
+"mock_backend" es el primer servicio que encontramos en el archivo.yaml y utiliza la imagen de Docker "stoplight/prism:4" para ejecutar un mock de nuestra especificación.
 
-El segundo servicio denominado "frontend" y utiliza la imagen de Docker "swaggerapi/swagger-ui:latest" para ejecutar una interfaz de usuario basada en Swagger para visualizar y probar la API RESTful. También se utiliza un volumen para montar el archivo de especificación OpenAPI desde el host dentro del contenedor en la ruta "/aos" y se establece como de sólo lectura.
+"frontend" es el segundo servicio que encontramos  y utiliza la imagen de Docker "swaggerapi/swagger-ui:latest" para lanzar una interfaz de usuario basada en Swagger de nuestro archivo openapi.yaml.
 
-El tercer servicio denominado "proxy" y utiliza la imagen de Docker "caddy:latest" para ejecutar un servidor proxy inverso que enruta las solicitudes entrantes a la API en el contenedor "mock_backend". El servicio utiliza un volumen para montar el archivo de configuración Caddy en "/etc/caddy/Caddyfile" desde el host dentro del contenedor y otro volumen para almacenar los datos persistentes de Caddy en "/data".
+El último servicio se denomina "proxy" y utiliza la imagen de Docker "caddy:latest" para ejecutar un servidor proxy que permite enruta las peticiones entrantes a la API en el contenedor "mock_backend".
 
 Para detener estos servicios que se ejecutan como contenedores de Docker, hay que ejecutar el siguiente comando en la misma carpeta donde se encuentra el archivo docker-compose.yml:
 ```bash
   docker compose down
 ```
-El comando detendrá y eliminará los contenedores de los servicios especificados en el archivo docker-compose.yml. 
+El comando docker compose down parará la ejecución de los contenedores y eliminará fichos contenedores especificados en el archivo docker-compose.yml. 
 
 ##Otros aspectos de la practica
 Merece la pena mencionar, que el docker compose levanta el contenedor de UI mediante la especificación sin trozear mediante split, es decir, 

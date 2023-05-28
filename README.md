@@ -265,7 +265,6 @@ Dado que nuestro grupo se encarga de la gestión de facturas, cada factura refer
 Por ello, cuando se recibe una nueva factura a insertar, se debería mandar una petición get al servicio de gestión de clientes con el id del cliente referenciado para ver si dicho cliente existe o no. También se debería hacer lo mismo con el id del vehículo y los id´s de trabajos.
 Por lo tanto, en vez de realizar dichas peticiones a los servicios de los compañeros de otros grupos, se ha decidido mockear los servicios de los clientes, vehículos y trabajos.
 Dicho mock, consiste en tres funciones que devuelven true o false para así simular el servicio de los compañeros. Dichas funciones se pueden encontrar en la ruta AOS_GRUPO8/Back-end_Facturas/Software/Facturas/controller_facturas/controller.py
-image.png
 
 
 ## Autores [Equipo 8]

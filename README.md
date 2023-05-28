@@ -55,14 +55,21 @@ También puede eliminar estos contenedores mediante docker-desktop
 ## Despliegue de la api implementada en local con docker-compose
 La implementación de la api está realizada con el framework de Flask en la ruta Back-end_Facturas. En dicha ruta encontramos:
 
-+Carpeta Software: Contiene el código de la implementación de la API
-+Carpeta venv: Entorno virtual para almacenar las dependencias del código
-+Carpeta imagen_bd: contiene la imagen de la base de datos, la cual contiene una serie de facturas ya insertadas. Esta imagen se utiliza para el despliegue de la bd en kubernetes
-+Carpeta imagen_swagger: contiene la imagen de swagger con la especificación realizada en la primera práctica (openapi.yaml). Esta imagen se utiliza para el despliegue de la bd en kubernetes
-+Dockerfile: se trata de la imagen de la implementación de la api.
-+init.sql: script sql que permite la inserción en la bd de una serie de facturas al iniciarse por primera vez la base de datos
-+requirements.txt: Es un fichero generado con todas las dependencias del código implementado. Este fichero txt es utilizado en la creación de la imagen de la api.
-+docker-compose-implementado: Este fichero nos permite levantar tres contenedores:
+Carpeta Software: Contiene el código de la implementación de la API
+
+Carpeta venv: Entorno virtual para almacenar las dependencias del código
+
+Carpeta imagen_bd: contiene la imagen de la base de datos, la cual contiene una serie de facturas ya insertadas. Esta imagen se utiliza para el despliegue de la bd en kubernetes
+
+Carpeta imagen_swagger: contiene la imagen de swagger con la especificación realizada en la primera práctica (openapi.yaml). Esta imagen se utiliza para el despliegue de la bd en kubernetes
+
+Dockerfile: se trata de la imagen de la implementación de la api.
+
+init.sql: script sql que permite la inserción en la bd de una serie de facturas al iniciarse por primera vez la base de datos
+
+requirements.txt: Es un fichero generado con todas las dependencias del código implementado. Este fichero txt es utilizado en la creación de la imagen de la api.
+
+docker-compose-implementado: Este fichero nos permite levantar tres contenedores:
 
 
 
@@ -92,11 +99,11 @@ Una vez ejecutado el comando podremos observar el despliegue en local de la api 
 ## Despliegue en Kubernetes
 En cuanto al despliegue en Kubernetes, se ha creado una carpeta denominada kubernets dentro de la ruta AOS_Grupo8\Back-end_Facturas\ . Esta carpeta contiene las siguientes carpetas:
 
-+despliegue_app:Esta carpeta contiene el archivo app_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el app_service.yaml que crea el servicio para que así la aplicación pueda ser accedida desde otro pod.
+despliegue_app:Esta carpeta contiene el archivo app_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el app_service.yaml que crea el servicio para que así la aplicación pueda ser accedida desde otro pod.
 
-+despliegue_bd: Esta carpeta contiene el archivo stateful.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_bd en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el bd_service.yaml que crea el servicio para que así la base de datos pueda ser accedida desde otro pod.
+despliegue_bd: Esta carpeta contiene el archivo stateful.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_bd en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el bd_service.yaml que crea el servicio para que así la base de datos pueda ser accedida desde otro pod.
 
-+despliegue_UI: Esta carpeta contiene el archivo ui_deployment.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_swagger en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el ui_service.yaml que crea el servicio para que así la interfaz de swagger sea accesible desde fuera del pod.
+despliegue_UI: Esta carpeta contiene el archivo ui_deployment.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_swagger en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el ui_service.yaml que crea el servicio para que así la interfaz de swagger sea accesible desde fuera del pod.
 
 Una vez explicado todo, para realizar el despliegue en kubernetes, primero es recomendable situarse en la ruta \kubernets
 
@@ -122,7 +129,9 @@ Tercero:
   kubectl apply -f .\despliegue_app\
 ```
 La razón por la que se pide ejecutar los comandos en este orden es porque es necesario que se creen los servicios de la bd antes que los de la api para que cuando la api intente acceder a la base de datos esta ya exista.
+
 Otro aspecto a mencionar es que al ejecutar el despliegue de la app  (kubectl apply -f .\despliegue_app\), este pod suele tardar unos 5 minutos o más en crearse ya que la imagen de la app es bastante pesada, pero se crea correctamente después de esperar un tiempo. A nosotros nos solía tardar 5 minutos en crearse el pod, además si ejecutamos el comando kubectl get pods mientras se crea el despliegue de la app, aunque tarde bastante podemos ver que el estado de el pod es CreatingContainer.
+
 Una vez realizados estos comandos en el orden indicado, se habrán creado 3 pods y 3 servicios. 
 Ahora, para acceder a la interfaz de la UI desplegada en el pod ui-facturas, ejecutar el siguiente comando:
 ```bash
@@ -140,8 +149,13 @@ bd-0                           1/1     Running   0          16m
 ui-facturas-78fdd5b568-8jz8d   1/1     Running   0          15m      
 
 ```
+
 En la imagen superior se ve que todos están en ejecución sin ningún problema.
-Ahora si hacemos una petición desde el pod de ui-facturas al pod de api-facturas esta es la respuesta
+
+IMPORTANTE recordar que cada vez que se ejecutan los script de despliegue de pods, cada pod se genera con un nombre nuevo, es decir, en la imagen superior
+podemos ver que el pod api-facturas va seguido de una serie de números, estos son generados automáticamente por razones desconocidas.
+Dichos nombres son generados automáticamente por kubernets y si se quieren hacer peticiones entre pods hay que poner correctamente e nombre del pod a la hora
+de realizar comandos como el que se realiza a continuación.
 ```bash
   PS C:\Users\jorge\Escritorio\AOS_Grupo8\Back-end_Facturas\kubernets> kubectl exec ui-facturas-78fdd5b568-8jz8d -- curl http://api-facturas:5000/api/v1/facturas/2023-0000
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current

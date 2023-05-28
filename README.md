@@ -101,9 +101,9 @@ En cuanto al despliegue en Kubernetes, se ha creado una carpeta denominada kuber
 
 despliegue_app:Esta carpeta contiene el archivo app_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el app_service.yaml que crea el servicio para que así la aplicación pueda ser accedida desde otro pod.
 
-despliegue_bd: Esta carpeta contiene el archivo stateful.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_bd en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el bd_service.yaml que crea el servicio para que así la base de datos pueda ser accedida desde otro pod.
+despliegue_bd: Esta carpeta contiene el archivo stateful.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\imagen_bd,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el bd_service.yaml que crea el servicio para que así la base de datos pueda ser accedida desde otro pod.
 
-despliegue_UI: Esta carpeta contiene el archivo ui_deployment.yaml que se encarga del despliegue de la imagen situada en la carpeta imagen_swagger en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el ui_service.yaml que crea el servicio para que así la interfaz de swagger sea accesible desde fuera del pod.
+despliegue_UI: Esta carpeta contiene el archivo ui_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\imagen_swagger,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el ui_service.yaml que crea el servicio para que así la interfaz de swagger sea accesible desde fuera del pod.
 
 Una vez explicado todo, para realizar el despliegue en kubernetes, primero es recomendable situarse en la ruta \kubernets
 

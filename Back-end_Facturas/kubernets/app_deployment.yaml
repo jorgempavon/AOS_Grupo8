@@ -14,12 +14,7 @@ spec:
     spec:
       containers:
         - name: api-facturas
-          #command:
-          #  - "bash"
-          #  - "-c"
-          #  - "ls -la"
-          #  - "while ! nc -z 10.100.227.29 3306; do sleep 1; done && python app.py"
-          #"while ! nc -z 10.100.227.29:3306; do sleep 1; done && python app.py"
+          
           image: jorgemp/aos_grupo8:latest
           env:
             - name: SQLALCHEMY_DATABASE_URI

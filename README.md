@@ -59,11 +59,11 @@ Carpeta Software: Contiene el código de la implementación de la API
 
 Carpeta venv: Entorno virtual para almacenar las dependencias del código
 
-Carpeta imagen_bd: contiene la imagen de la base de datos, la cual contiene una serie de facturas ya insertadas. Esta imagen se utiliza para el despliegue de la bd en kubernetes
+Carpeta imagen_bd: contiene la imagen de la base de datos, la cual contiene una serie de facturas ya insertadas. Esta imagen se utiliza para el despliegue de la bd en kubernetes y esta subida en DockerHub
 
-Carpeta imagen_swagger: contiene la imagen de swagger con la especificación realizada en la primera práctica (openapi.yaml). Esta imagen se utiliza para el despliegue de la bd en kubernetes
+Carpeta imagen_swagger: contiene la imagen de swagger con la especificación realizada en la primera práctica (openapi.yaml). Esta imagen se utiliza para el despliegue de la bd en kubernetes y esta subida en DockerHub
 
-Dockerfile: se trata de la imagen de la implementación de la api.
+Dockerfile: se trata de la imagen de la implementación de la api y se encuentra disponible en DockerHub
 
 init.sql: script sql que permite la inserción en la bd de una serie de facturas al iniciarse por primera vez la base de datos
 
@@ -97,40 +97,41 @@ Una vez ejecutado el comando podremos observar el despliegue en local de la api 
 
 
 ## Despliegue en Kubernetes
-En cuanto al despliegue en Kubernetes, se ha creado una carpeta denominada kubernets dentro de la ruta AOS_Grupo8\Back-end_Facturas\ . Esta carpeta contiene las siguientes carpetas:
 
-despliegue_app:Esta carpeta contiene el archivo app_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el app_service.yaml que crea el servicio para que así la aplicación pueda ser accedida desde otro pod.
 
-despliegue_bd: Esta carpeta contiene el archivo stateful.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\imagen_bd,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el bd_service.yaml que crea el servicio para que así la base de datos pueda ser accedida desde otro pod.
-
-despliegue_UI: Esta carpeta contiene el archivo ui_deployment.yaml que se encarga del despliegue de la imagen situada en la ruta AOS_GRUPO8\Back-end\imagen_swagger,dicha imagen se subió al repositorio de Docker hub. Esta carpeta también contiene el ui_service.yaml que crea el servicio para que así la interfaz de swagger sea accesible desde fuera del pod.
-
-Una vez explicado todo, para realizar el despliegue en kubernetes, primero es recomendable situarse en la ruta \kubernets
+Primero es recomendable situarse en la ruta \Back-end_Facturas
 
 ```bash
-  cd kubernets
+  cd .\Back-end_Facturas
 ```
 Iniciar minikube:
 ```bash
   minikube start
 ```
-Ejecutar en este orden los siguientes comandos:
+Ejecutar en el siguiente comando:
 
 Primero:
 ```bash
-  kubectl apply -f .\despliegue_bd\
+  kubectl apply -f .\kubernets\
 ```
-Segundo:
+Al aplicar dicho comando se  ejecutan los scripts de despliegue y creación de servicios de la base de datos, la aplicación y de la interfaz de swagger.
+Merece la pena mencionar que al ser creados los 3 pods a la vez , puede que el pod denominado api-facturas tenga un status de error si aún no se ha terminado de crear la base de datos. Por ello aunque de error, si esperamos hasta que se cree el pod de la bd, el pod de api-facturas se reiniciará automáticamente y su estado cambiará a en ejecución.
+Como se puede ver en el ejemplo de abajo, el pod de la api se crea antes y da error, pero una vez se crea el pod de la bd, el pod de la api se reinicia y se crea correctamente:
 ```bash
-  kubectl apply -f .\despliegue_UI\
+PS C:\Users\jorge\Escritorio\AOS_Grupo8\Back-end_Facturas> kubectl get pods
+NAME                           READY   STATUS    RESTARTS   AGE
+api-facturas-cddc5796-lfzfd    0/1     Error     0          4m34s
+bd-0                           1/1     Running   0          4m35s
+ui-facturas-78fdd5b568-scpl2   1/1     Running   0          4m34s
+PS C:\Users\jorge\Escritorio\AOS_Grupo8\Back-end_Facturas> kubectl get pods
+NAME                           READY   STATUS    RESTARTS      AGE
+api-facturas-cddc5796-lfzfd    1/1     Running   1 (76s ago)   4m35s
+bd-0                           1/1     Running   0             4m36s
+ui-facturas-78fdd5b568-scpl2   1/1     Running   0             4m35s
 ```
-Tercero:
-```bash
-  kubectl apply -f .\despliegue_app\
-```
-La razón por la que se pide ejecutar los comandos en este orden es porque es necesario que se creen los servicios de la bd antes que los de la api para que cuando la api intente acceder a la base de datos esta ya exista.
+También hay que rogar la paciencia a la hora de creación de los pods, ya que, como se puede ver arriba, tardan mucho en crearse y esto es debido a que el despliegue de estos pods hace referencia a las imágenes publicadas en DockerHub, dos de las cuales (la de la base de datos y la de la implemetación de la aplicación) con bastante pesadas.
 
-Otro aspecto a mencionar es que al ejecutar el despliegue de la app  (kubectl apply -f .\despliegue_app\), este pod suele tardar unos 5 minutos o más en crearse ya que la imagen de la app es bastante pesada, pero se crea correctamente después de esperar un tiempo. A nosotros nos solía tardar 5 minutos en crearse el pod, además si ejecutamos el comando kubectl get pods mientras se crea el despliegue de la app, aunque tarde bastante podemos ver que el estado de el pod es CreatingContainer.
+En esta URL se puede consultar el repositorio en DockerHub con las 3 imágenes: https://hub.docker.com/repository/docker/jorgemp/aos_grupo8/general
 
 Una vez realizados estos comandos en el orden indicado, se habrán creado 3 pods y 3 servicios. 
 Ahora, para acceder a la interfaz de la UI desplegada en el pod ui-facturas, ejecutar el siguiente comando:

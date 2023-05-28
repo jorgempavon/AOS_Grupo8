@@ -274,6 +274,24 @@ Dicho comando nos abrirá una página en nuestro navegador, recordar añadir a l
 Como equipo recomendamos ejecutar el comando superior y utilizar postman para hacer peticiones.
 
 ## Aspectos importantes de la práctica
+
+### Endpoints de la API
+La API tiene los siguientes endpoints:
+
+| Método HTTP | Endpoint                     | Resultado                                                           |
+|-------------|------------------------------|---------------------------------------------------------------------|
+| GET         | /api/v1/facturas             | Obtiene todos las facturas                                          |
+| POST        | /api/v1/facturas             | Inserta una nueva Factura                                           |
+| OPTIONS     | /api/v1/facturas             | Devuelve la lista de los métodos HTTP soportados por este endpoint  |
+| GET         | /api/v1/facturas/{id_factura}| Devuelve la factura identificadoa por `id_factura` si existe        |
+| OPTIONS     | /api/v1/facturas/{id_factura}| Devuelve la lista de los métodos HTTP soportados por este endpoint  |
+| PUT         | /api/v1/facturas/{id_factura}| Modifica la factura identificada por `id_factura` si existe         |
+| DELETE      | /api/v1/facturas/{id_factura}| Elimina la factura identificada por `id_factura` si existe          |
+
+La documentación completa de la API se encuentra en la interfaz de Swagger, o en la especificación OpenAPI
+incluida en el fichero `/openapi/openapi.yml`
+
+### Mock de los servicios restantes
 Dado que nuestro grupo se encarga de la gestión de facturas, cada factura referencia a un cliente, un vehículo y a uno o varios trabajos, por lo tanto, cada vez que se introduce una nueva factura hay que comprobar si existe el cliente , el vehículo y los trabajos.
 Por ello, cuando se recibe una nueva factura a insertar, se debería mandar una petición get al servicio de gestión de clientes con el id del cliente referenciado para ver si dicho cliente existe o no. También se debería hacer lo mismo con el id del vehículo y los id´s de trabajos.
 Por lo tanto, en vez de realizar dichas peticiones a los servicios de los compañeros de otros grupos, se ha decidido mockear los servicios de los clientes, vehículos y trabajos.

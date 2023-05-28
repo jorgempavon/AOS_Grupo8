@@ -277,7 +277,26 @@ Como equipo recomendamos ejecutar el comando superior y utilizar postman para ha
 Dado que nuestro grupo se encarga de la gestión de facturas, cada factura referencia a un cliente, un vehículo y a uno o varios trabajos, por lo tanto, cada vez que se introduce una nueva factura hay que comprobar si existe el cliente , el vehículo y los trabajos.
 Por ello, cuando se recibe una nueva factura a insertar, se debería mandar una petición get al servicio de gestión de clientes con el id del cliente referenciado para ver si dicho cliente existe o no. También se debería hacer lo mismo con el id del vehículo y los id´s de trabajos.
 Por lo tanto, en vez de realizar dichas peticiones a los servicios de los compañeros de otros grupos, se ha decidido mockear los servicios de los clientes, vehículos y trabajos.
-Dicho mock, consiste en tres funciones que devuelven true o false para así simular el servicio de los compañeros. Dichas funciones se pueden encontrar en la ruta AOS_GRUPO8/Back-end_Facturas/Software/Facturas/controller_facturas/controller.py
+Dicho mock, consiste en tres funciones que devuelven true o false para así simular el servicio de los compañeros. Dichas funciones se pueden encontrar en la ruta AOS_GRUPO8/Back-end_Facturas/Software/Facturas/controller_facturas/controller.py .
+
+Estas son dichas funciones:
+```python
+
+ def mock_Cliente(id_cliente):
+        return True
+        return random.choice([True, False])
+
+    def mock_Vehiculo(VIN_coche): 
+        return True
+        return random.choice([True,False])
+    
+
+    def mock_Trabajos(trabajos):
+        return True
+        return random.choice([True,False])
+
+```
+Todas devuelven True ya que se fuerza a que cada vez que se inserte una factura la función de cada mock simule que son válidos los valores del id del cliente del vehículo y de los trabajos.
 
 
 ## Autores [Equipo 8]

@@ -150,7 +150,20 @@ ui-facturas-78fdd5b568-8jz8d   1/1     Running   0          15m
 
 ```
 
+
 En la imagen superior se ve que todos están en ejecución sin ningún problema.
+
+Aquí se pueden ver los servicios, los cuales se denominan siempre igual, pero pueden tener diferentes IP´s de cluster:
+```bash
+
+PS C:\Users\jorge\Escritorio\AOS_Grupo8> kubectl get services
+NAME           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+api-facturas   ClusterIP      10.102.240.102   <none>        5000/TCP         136m
+bd             ClusterIP      10.109.207.189   <none>        3306/TCP         137m
+kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP          138m
+ui-facturas    LoadBalancer   10.98.216.152    <pending>     8080:30089/TCP   136m
+
+```
 
 IMPORTANTE recordar que cada vez que se ejecutan los script de despliegue de pods, cada pod se genera con un nombre nuevo, es decir, en la imagen superior
 podemos ver que el pod api-facturas va seguido de una serie de números, estos son generados automáticamente por razones desconocidas.

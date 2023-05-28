@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from database import db
 from distutils.log import debug
@@ -17,7 +18,8 @@ app=Flask(__name__)
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] =dtb
-
+if 'SQLALCHEMY_DATABASE_URI' in os.environ:
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 api = Api(app)
 
 db.init_app(app)

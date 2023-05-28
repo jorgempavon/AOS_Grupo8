@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: bd
+spec:
+  serviceName: bd
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bd
+  template:
+    metadata:
+      labels:
+        app: bd
+    spec:
+      containers:
+        
+        - name: bd
+          image: jorgemp/aos_grupo8:bd
+          ports:
+            - containerPort: 3306
+          
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,4 @@
+Para levantar el docker compose del mock, usar el siguiente comando:
+docker-compose -f docker-compose-mock.yaml up
+Para parar el docker compose del mock, usar el siguiente comando:
+docker-compose -f docker-compose-mock.yaml down

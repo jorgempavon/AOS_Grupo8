@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui-facturas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui-facturas
+  template:
+    metadata:
+      labels:
+        app: ui-facturas
+    spec:
+      containers:
+        - name: ui-facturas
+          image: jorgemp/aos_grupo8:swagger
+          ports:
+            - containerPort: 8080
+          

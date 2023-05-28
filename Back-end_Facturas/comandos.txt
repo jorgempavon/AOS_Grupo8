@@ -1,3 +1,6 @@
 
-Para levantar el docker compose correctamente utilizar el siguiente comando:
-docker-compose up --build
+Comando para levantar el docker compose con la api implementada (Antes de usar este comando asegurarse de tener docker ejecutandose 
+y estar en la ruta en la que se encuentra el archivo docker-compose-implementado.yaml):
+docker-compose -f docker-compose-implementado.yaml up --build
+
+

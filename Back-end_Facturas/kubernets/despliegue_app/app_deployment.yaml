@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-facturas
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-facturas
+  template:
+    metadata:
+      labels:
+        app: api-facturas
+    spec:
+      containers:
+        - name: api-facturas
+          #command:
+          #  - "bash"
+          #  - "-c"
+          #  - "ls -la"
+          #  - "while ! nc -z 10.100.227.29 3306; do sleep 1; done && python app.py"
+          #"while ! nc -z 10.100.227.29:3306; do sleep 1; done && python app.py"
+          image: jorgemp/aos_grupo8:latest
+          env:
+            - name: SQLALCHEMY_DATABASE_URI
+              value: mysql://root:root@10.109.207.189:3306/aos
+          ports:
+            - containerPort: 5000
+          

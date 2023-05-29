@@ -2,7 +2,7 @@
 # Práctica 2 AOS
 El principal objetivo de esta tarea consiste en consolidar los conceptos relacionados con la infraestructura y el despliegue de una aplicación que sigue una arquitectura orientada a servicios.
 Porfavor, se ruega la lectura de este readme antes de desplegar los servicios contenidos en el respositorio.
-Otro aspecto a comentar, porfavor, cada vez que se despliegue 
+
 
 ### Características de Factura
 

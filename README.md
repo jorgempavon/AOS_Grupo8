@@ -59,6 +59,8 @@ Carpeta Software: Contiene el código de la implementación de la API
 
 Carpeta venv: Entorno virtual para almacenar las dependencias del código
 
+Carpeta Kubernets: Contiene los sripts para el despliegue en kubernetes de la aplicación, la base de datos y la interfaz de swagger.
+
 Carpeta imagen_bd: contiene la imagen de la base de datos, la cual contiene una serie de facturas ya insertadas. Esta imagen se utiliza para el despliegue de la bd en kubernetes y esta subida en DockerHub
 
 Carpeta imagen_swagger: contiene la imagen de swagger con la especificación realizada en la primera práctica (openapi.yaml). Esta imagen se utiliza para el despliegue de la bd en kubernetes y esta subida en DockerHub

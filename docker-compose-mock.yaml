@@ -1,5 +1,5 @@
 version: "3"
-name: mock_api
+
 services:
   mock_backend:
     image: stoplight/prism:4
